@@ -9,15 +9,18 @@ var colorSet = [
 	["#ffabbb","#ff5676","#ff2d55","#ff8199"], //pink
 ];
 
+// Returns a color Palette
 var selectColorPalette = function(){
 	block.colorPalette = colorSet[getRandomArbitrary(0,8)];
 	selectColor();
 }
 
+// Random number Generator
 var getRandomArbitrary = function(min, max) {
   return parseInt(Math.random() * (max - min) + min);
 }
 
+// return the lowest lane score
 var getLowestLaneScore = function(){
 	var lowest = block.laneScore[0].length;
 	for(var i = 1;i<block.laneScore.length;i++){
@@ -29,6 +32,7 @@ var getLowestLaneScore = function(){
 	return lowest;
 }
 
+// Returns one color from selected color palette
 var selectColor = function(){
 	block.currentColor = getRandomArbitrary(0,4);
 	$('#singleBlock').css("background", block.colorPalette[block.currentColor])

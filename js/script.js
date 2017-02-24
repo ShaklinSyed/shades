@@ -1,6 +1,6 @@
 var block = {
 	lane : [610,610,610,610],
-	laneScore : [[1,2,0],[2,1,3],[1,2,0],[2,1,3]],
+	laneScore : [[],[],[],[]],
 	currentLane : 1,
 	dimension : {
 		width: 256,
@@ -8,11 +8,11 @@ var block = {
 	},
 	currentPosition : {
 		top : 0,
-		left : 256,
+		left : 256
 	},
 	colorPalette : [],
 	currentColor : 0,
-	movementInterval : "",
+	movementInterval : ""
 };
 
 $(document).ready(function(){
@@ -21,8 +21,6 @@ $(document).ready(function(){
 
 	// Event Listener
 	$('body').on('keydown',function(event){
-		var blockLeftPos = parseInt($('#singleBlock').css('left'));
-
 		if(event.which == 37){
 			console.log("Left");
 			if(block.currentLane > 0 && block.lane[block.currentLane - 1] > block.currentPosition.top){
@@ -41,14 +39,18 @@ $(document).ready(function(){
 		}
 	});
 
+	$('.controls').on('click',function(){
+		console.log("pause game");
+	});
+
 
 });
 
 var loadBlock = function(){
-	$('#wrapper').append("<div id='singleBlock'></div>");
+	$('#wrapper').append("<div id='singleBlock' class='new-block'></div>");
 	selectColorPalette();
 	block.movementInterval = setInterval(moveBlock, 5);
-}
+};
 
 // creates a new block
 var createNewBlock = function(){
@@ -58,13 +60,13 @@ var createNewBlock = function(){
 	block.currentPosition.left = 256;
 	selectColor();
 	block.movementInterval = setInterval(moveBlock, 5);
-}
+};
 
 var moveBlock = function(){
 	if(block.currentPosition.top < block.lane[block.currentLane]){
 		++block.currentPosition.top;
-		$('#singleBlock').css("top", block.currentPosition.top + "px");	
-		$('#singleBlock').css("left", block.currentPosition.left + "px");	
+		$('#singleBlock').css("top", block.currentPosition.top + "px");
+		$('#singleBlock').css("left", block.currentPosition.left + "px");
 	}else if(block.currentPosition.top == block.lane[block.currentLane]){
 		clearInterval(block.movementInterval);
 		console.log(block.lane);
@@ -72,12 +74,9 @@ var moveBlock = function(){
 			block.laneScore[block.currentLane].push(block.currentColor);
 			$('#singleBlock').remove();
 			calcBlockScore();
-			draw();
-			checkGameStatus();
-			createNewBlock();
 		}
 	}
-}
+};
 
 var checkGameStatus = function(){
 	for(var i= 0;i<block.lane.length;i++){
@@ -87,7 +86,7 @@ var checkGameStatus = function(){
 		}
 	}
 	return true;
-}
+};
 
 
 var draw = function(){
@@ -114,14 +113,29 @@ var draw = function(){
 		}
 		block.lane[i] = top;
 	}
-}
+};
 
 var calcBlockScore = function(){
 	var lowest = getLowestLaneScore();
-	// check if row is has same value
-	if(block.lane[0][lowest] == block.lane[1][lowest] == block.lane[2][lowest] == block.lane[3][lowest]){
 
+	if(block.laneScore[0][0] != undefined && block.laneScore[1][0] != undefined && block.laneScore[2][0] != undefined && block.laneScore[3][0] != undefined){
+
+		console.log(block.laneScore[block.currentLane][block.laneScore[block.currentLane].length - 1], block.currentColor);
+		//Add blocks
+		if(block.laneScore[block.currentLane][block.laneScore[block.currentLane].length -1] == block.currentColor){
+            console.log("same color blocks");
+        }
+		// check if row is has same value
+		if(block.laneScore[0][lowest] == block.laneScore[1][lowest] == block.laneScore[2][lowest] == block.laneScore[3][lowest]){
+            console.log("same data");
+            block.laneScore[0].pop();
+            block.laneScore[1].pop();
+            block.laneScore[2].pop();
+            block.laneScore[3].pop();
+        }
 	}
+	draw();
+	checkGameStatus();
+	createNewBlock();
 
-	//Add blocks
-}
+};

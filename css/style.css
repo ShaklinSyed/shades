@@ -5,18 +5,70 @@
 	background: #404040;
 	position: relative;
 }
+.controls{
+	width: 100%;
+	height: 50px;
+	position: absolute;
+	top: 20px;
+	color: #fff;
+	font-family: Arial, sans-serif;
+	display: flex;
+	flex-direction: row;
+	align-content: center;
+	justify-content: center;
+}
+
+.controls .level{
+	width: 15%;
+	height: 100%;
+	font-size: 24px;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+}
+
+.controls .game-score{
+	width: 70%;
+	height: 100%;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	text-align: center;
+	font-size: 36px;
+	z-index: 1;
+}
+
+.wrapper .controls .pause-button{
+	width: 15%;
+	height: 100%;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.controls .pause-button div{
+	width: 15px;
+	height: 100%;
+	background: #d8d8d8;
+}
+
+.controls .pause-button div:first-child{
+	margin-right: 10px;
+}
 
 .block{
 	width: 256px;
 	height: 90px;
 	position: absolute;
 }
+
 #singleBlock{
 	width: 256px;
 	height: 90px;
 	background: #b7efc1;
 	position: absolute;
-	top: 0px;
+	top: 0;
 	left: 256px;
 }
 

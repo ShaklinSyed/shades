@@ -1,0 +1,22 @@
+.wrapper{
+	width: 1024px;
+	height: 700px;
+	margin: 0 auto;
+	background: #404040;
+	position: relative;
+}
+
+.block{
+	width: 256px;
+	height: 90px;
+	position: absolute;
+}
+#singleBlock{
+	width: 256px;
+	height: 90px;
+	background: #b7efc1;
+	position: absolute;
+	top: 0px;
+	left: 256px;
+}
+

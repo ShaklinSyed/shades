@@ -1,12 +1,12 @@
 var colorSet = [
-	["#ffb0ac","#ff6259","#ff3b30","#ff8982"], //red 
-	["#ffd499","#ffaa32","#ff9500","#ffbf66"], //orange
-	["#ffea99","#ffd632","#ffcc00","#ffe066"], //yellow
-	["#4cd964","#6fe083","#93e8a2","#b7efc1"], //green
-	["#bde9fd","#7ad3fb","#5ac8fa","#9cdefc"], //teal-blue
-	["#99c9ff","#3294ff","#007aff","#66afff"], //blue
-	["#bcbbee","#7977de","#5856d6","#9a99e6"], //purple
-	["#ffabbb","#ff5676","#ff2d55","#ff8199"], //pink
+	["#ffb0ac","#ff8982","#ff6259","#ff3b30"], //red
+	["#ffd499","#ffbf66","#ffaa32","#ff9500"], //orange
+	["#ffea99","#ffe066","#ffd632","#ffcc00"], //yellow
+	["#b7efc1","#93e8a2","#6fe083","#4cd964"], //green
+	["#bde9fd","#9cdefc","#7ad3fb","#5ac8fa"], //teal-blue
+	["#99c9ff","#66afff","#3294ff","#007aff"], //blue
+	["#bcbbee","#9a99e6","#7977de","#5856d6"], //purple
+	["#ffabbb","#ff8199","#ff5676","#ff2d55"], //pink
 ];
 
 // Returns a color Palette

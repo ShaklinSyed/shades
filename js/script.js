@@ -12,8 +12,11 @@ var block = {
 	},
 	colorPalette : [],
 	currentColor : 0,
-	movementInterval : ""
+	movementInterval : "",
+	score : 0
 };
+
+var paused = false;
 
 $(document).ready(function(){
 
@@ -35,6 +38,20 @@ $(document).ready(function(){
 			}
 		}else if(event.which == 40){
 			// console.log("Bottom");
+		}else if(event.which == 32){
+            if(paused == true){
+                console.log("Play");
+                block.movementInterval = setInterval(moveBlock, 5);
+                $('#pauseButton').toggle();
+                $('#playButton').toggle();
+                paused = false;
+			}else{
+                console.log('paused');
+                clearInterval(block.movementInterval);
+                $('#pauseButton').toggle();
+                $('#playButton').toggle();
+                paused = true;
+			}
 		}
 	});
 
@@ -55,6 +72,7 @@ $(document).ready(function(){
 		clearInterval(block.movementInterval);
 		$('#pauseButton').toggle();
         $('#playButton').toggle();
+        paused = true;
 	});
 
 	$('#playButton').on('click',function(){
@@ -62,6 +80,32 @@ $(document).ready(function(){
         block.movementInterval = setInterval(moveBlock, 5);
         $('#pauseButton').toggle();
         $('#playButton').toggle();
+        paused = false;
+	});
+
+	$('#playAgain').on('click', function(){
+        $('#endMenu').slideToggle();
+
+        block.laneScore[0].length = 0;
+        block.laneScore[1].length = 0;
+        block.laneScore[2].length = 0;
+        block.laneScore[3].length = 0;
+
+        block.score = 0;
+
+
+        clearInterval(block.movementInterval);
+        $('#wrapper').find('.block').remove();
+
+        setTimeout(function () {
+            $('#wrapper').slideToggle();
+            $('#singleBlock').remove();
+
+            setTimeout(function (){
+                loadBlock();
+                draw();
+            },500);
+        }, 500);
 	});
 
 	// startGame();
@@ -71,10 +115,11 @@ $(document).ready(function(){
 var loadMenu = function(){
     $('#playButton').hide();
     $('#wrapper').hide();
+    $('#endMenu').hide();
 };
 
 var loadBlock = function(){
-	$('#wrapper').append("<div id='singleBlock' class='new-block'></div>");
+	$('#wrapper').append("<div id='singleBlock'></div>");
 	selectColorPalette();
 	block.movementInterval = setInterval(moveBlock, 5);
 };
@@ -98,6 +143,7 @@ var moveBlock = function(){
 	}else if(block.currentPosition.top == block.lane[block.currentLane]){
 		clearInterval(block.movementInterval);
 		if(checkGameStatus()){
+            block.score += getScore() * 5;
 			block.laneScore[block.currentLane].push(block.currentColor);
 			$('#singleBlock').remove();
 			calcBlockScore();
@@ -110,6 +156,12 @@ var checkGameStatus = function(){
 	for(var i= 0;i<block.lane.length;i++){
 		if(block.lane[i] < 0){
 			console.log("Game ended");
+            clearInterval(block.movementInterval);
+            $('#wrapper').slideToggle();
+            $('#gameScore').html('');
+            setTimeout(function () {
+                $('#endMenu').slideToggle();
+            }, 500);
 			return false;
 		}
 	}
@@ -147,6 +199,11 @@ var draw = function(){
 		}
 		block.lane[i] = top;
 	}
+
+	console.log(block.score);
+
+	$('#gameScore').html(block.score);
+    $('#endMenuScore').html(block.score);
 };
 
 
@@ -172,14 +229,14 @@ var calcBlockScore = function(){
 
 
 	if(lowest >= 1){
-		// check if row is has same value
-		for(var i=0;i<=lowest;i++){
-			console.log("lowest", lowest);
-            console.log(block.laneScore[0][i], block.laneScore[1][i], block.laneScore[2][i], block.laneScore[3][i],"inside loop data", "i", i);
+        for(var i=0;i<=lowest;i++){
             if(block.laneScore[0][i] == block.laneScore[1][i] &&
-			   block.laneScore[0][i] == block.laneScore[2][i] &&
-			   block.laneScore[0][i] == block.laneScore[3][i]){
-            	console.log(block.laneScore[0][i], block.laneScore[1][i], block.laneScore[2][i], block.laneScore[3][i],"same data");
+                block.laneScore[0][i] == block.laneScore[2][i] &&
+                block.laneScore[0][i] == block.laneScore[3][i]){
+
+                var tempScore = (i+1) * 15;
+				block.score += tempScore;
+
                 block.laneScore[0].splice(i,1);
                 block.laneScore[1].splice(i,1);
                 block.laneScore[2].splice(i,1);
@@ -192,11 +249,23 @@ var calcBlockScore = function(){
 
                 console.log(block.laneScore);
             }
-		}
+        }
 	}
 
 	draw();
 	checkGameStatus();
 	createNewBlock();
 
+};
+
+var getScore = function(){
+	if(block.currentColor == 0){
+		return 1;
+	}else if(block.currentColor == 1){
+		return 2;
+	}else if(block.currentColor == 2){
+		return 3;
+	}else if(block.currentColor == 3){
+		return 4;
+	}
 };

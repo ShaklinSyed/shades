@@ -45,11 +45,13 @@ var sumVertBlocks =function (arr) {
 		if(arr[i] == arr[i+1] && arr[i] != 3){
 			arr[i+1] += 1;
 			arr.splice(i,1);
+
+			block.score = block.score + ((i+1) * 10);
 		}else{
 			break;
 		}
 	}
 	arr = arr.reverse();
-    // console.log(arr);
+    console.log(arr);
 	return arr;
 };

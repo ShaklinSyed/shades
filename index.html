@@ -9,13 +9,13 @@
 	<div id="mainMenu" class="menu">
 		<h2>Shades</h2>
 		<div id="startGame" class="btns">Start</div>
-		<div class="btns m-score-btn">Score</div>
-		<div class="btns m-credits-btn">Credits</div>
+		<div class="btns">Score</div>
+		<div class="btns">Credits</div>
 	</div>
 	<div id="wrapper" class="wrapper">
 		<div class="controls">
 			<div class="level">Level : &nbsp;<span id="levelScore">1</span></div>
-			<div class="game-score">1</div>
+			<div id="gameScore" class="game-score"></div>
 			<div class="pause-button" id="pauseButton">
 				<div></div>
 				<div></div>
@@ -24,8 +24,15 @@
 				<div></div>
 			</div>
 		</div>
-
 		<!--<div class="blocks"></div>-->
+	</div>
+	<div id="endMenu" class="end-menu-wrapper">
+		<div class="end-menu-container">
+			<p class="eM-game-over">Game Over</p>
+			<p class="eM-score">Score</p>
+			<p id="endMenuScore" class="eM-score-val"></p>
+			<div id="playAgain" class="btns">play again</div>
+		</div>
 	</div>
 </body>
 

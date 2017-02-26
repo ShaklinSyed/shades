@@ -13,14 +13,14 @@ var colorSet = [
 var selectColorPalette = function(){
 	block.colorPalette = colorSet[getRandomArbitrary(0,8)];
 	selectColor();
-}
+};
 
 // Random number Generator
 var getRandomArbitrary = function(min, max) {
   return parseInt(Math.random() * (max - min) + min);
-}
+};
 
-// return the lowest lane score
+// Return the lowest lane score
 var getLowestLaneScore = function(){
 	var lowest = block.laneScore[0].length;
 	for(var i = 1;i<block.laneScore.length;i++){
@@ -28,13 +28,28 @@ var getLowestLaneScore = function(){
 			lowest = block.laneScore[i].length;
 		}
 	}
-	console.log(lowest);
+	// console.log(lowest);
 	return lowest;
-}
+};
 
 // Returns one color from selected color palette
 var selectColor = function(){
 	block.currentColor = getRandomArbitrary(0,4);
 	$('#singleBlock').css("background", block.colorPalette[block.currentColor])
-}
+};
 
+
+var sumVertBlocks =function (arr) {
+	arr = arr.reverse();
+	for(var i=0;i<arr.length;){
+		if(arr[i] == arr[i+1] && arr[i] != 3){
+			arr[i+1] += 1;
+			arr.splice(i,1);
+		}else{
+			break;
+		}
+	}
+	arr = arr.reverse();
+    // console.log(arr);
+	return arr;
+};

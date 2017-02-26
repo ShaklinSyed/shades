@@ -18,34 +18,35 @@ var block = {
 $(document).ready(function(){
 
 	loadMenu();
-	
+
 	// Event Listener
 	$('body').on('keydown',function(event){
 		if(event.which == 37){
-			console.log("Left");
+			// console.log("Left");
 			if(block.currentLane > 0 && block.lane[block.currentLane - 1] > block.currentPosition.top){
-				console.log();
 				block.currentLane -=1;
 				block.currentPosition.left -= 256;
 			}
 		}else if(event.which == 39){
-			console.log("Right");
+			// console.log("Right");
 			if(block.currentLane <= 2 && block.lane[block.currentLane + 1] > block.currentPosition.top){
 				block.currentLane += 1;
 				block.currentPosition.left += 256;
 			}
 		}else if(event.which == 40){
-			console.log("Bottom");
+			// console.log("Bottom");
 		}
 	});
 
 	$('#startGame').on('click',function(){
-		$('#mainMenu').slideToggle();
-		$('#wrapper').slideToggle();
+        $('#mainMenu').slideToggle();
 
 		setTimeout(function(){
-            loadBlock();
-            draw();
+            $('#wrapper').slideDown();
+            setTimeout(function (){
+                loadBlock();
+                draw();
+            },500);
 		}, 500)
 	});
 
@@ -66,6 +67,7 @@ $(document).ready(function(){
 	// startGame();
 });
 
+// Loads Main Menu
 var loadMenu = function(){
     $('#playButton').hide();
     $('#wrapper').hide();
@@ -87,6 +89,7 @@ var createNewBlock = function(){
 	block.movementInterval = setInterval(moveBlock, 5);
 };
 
+// function to move block
 var moveBlock = function(){
 	if(block.currentPosition.top < block.lane[block.currentLane]){
 		++block.currentPosition.top;
@@ -100,6 +103,7 @@ var moveBlock = function(){
 			calcBlockScore();
 		}
 	}
+
 };
 
 var checkGameStatus = function(){
@@ -114,23 +118,29 @@ var checkGameStatus = function(){
 
 
 var draw = function(){
+
+    // clearing blocks before redraw
+    $('#wrapper').find('.block').remove();
+
 	for(var i = 0;i<block.laneScore.length;i++){
 		var top = 610,
-		left = 0;
-			switch(i){
-				case 0:
-					left = 0;
-					break;
-				case 1:
-					left = block.dimension.width * (i);
-					break;
-				case 2:
-					left = block.dimension.width * (i);
-					break;
-				case 3:
-					left = block.dimension.width * (i);
-					break;
-			}
+			left = 0;
+
+		switch(i){
+			case 0:
+				left = 0;
+				break;
+			case 1:
+				left = block.dimension.width * (i);
+				break;
+			case 2:
+				left = block.dimension.width * (i);
+				break;
+			case 3:
+				left = block.dimension.width * (i);
+				break;
+		}
+
 		for(var j =0 ; j<block.laneScore[i].length;j++){
 			$('#wrapper').append("<div class='block' style='top: "+ top +"px; left:"+ left +"px;background-color:" + block.colorPalette[block.laneScore[i][j]] +"' >"+ block.laneScore[i][j]+"</div>");
 			top-= block.dimension.height;
@@ -139,19 +149,27 @@ var draw = function(){
 	}
 };
 
+
+var verLaneAddition = function(){
+	for(var i = 0;i<block.laneScore.length;i++){
+		if(block.laneScore[i].length >= 2){
+            block.laneScore[i] = sumVertBlocks(block.laneScore[i]);
+		}
+	}
+
+	console.log(block.laneScore[0],"0");
+    console.log(block.laneScore[1],"1");
+    console.log(block.laneScore[2],"2");
+    console.log(block.laneScore[3],"3");
+
+};
+
 var calcBlockScore = function(){
 	var lowest = getLowestLaneScore();
 
-    //Add blocks
+	//Checks for vertical addition
+    verLaneAddition();
 
-		console.log(block.laneScore);
-		if(block.laneScore[block.currentLane][1] != undefined && block.laneScore[block.currentLane][block.laneScore[block.currentLane].length - 1] == block.currentColor && block.currentColor < 3){
-            console.log(block.laneScore[block.currentLane],'before');
-            var currentLane = block.laneScore[block.currentLane];
-			block.laneScore[block.currentLane][currentLane.length - 1] += 1;
-            block.laneScore[block.currentLane].length = block.laneScore[block.currentLane].length - 1;
-            console.log(block.laneScore[block.currentLane],'after');
-		}
 
 	if(block.laneScore[0][0] != undefined && block.laneScore[1][0] != undefined && block.laneScore[2][0] != undefined && block.laneScore[3][0] != undefined){
 
@@ -159,15 +177,21 @@ var calcBlockScore = function(){
 		for(var i=0;i<lowest;i++){
             if(block.laneScore[0][i] == block.laneScore[1][i] == block.laneScore[2][i] == block.laneScore[3][i]){
                 console.log("same data");
-                // block.laneScore[0].pop();
-                // block.laneScore[1].pop();
-                // block.laneScore[2].pop();
-                // block.laneScore[3].pop();
+                block.laneScore[0].splice(i,1);
+                block.laneScore[1].splice(i,1);
+                block.laneScore[2].splice(i,1);
+                block.laneScore[3].splice(i,1);
+
+                block.lane[0] += block.dimension.height;
+                block.lane[1] += block.dimension.height;
+                block.lane[2] += block.dimension.height;
+                block.lane[3] += block.dimension.height;
 
                 console.log(block.laneScore);
             }
 		}
 	}
+
 	draw();
 	checkGameStatus();
 	createNewBlock();

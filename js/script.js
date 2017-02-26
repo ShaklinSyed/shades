@@ -157,10 +157,10 @@ var verLaneAddition = function(){
 		}
 	}
 
-	console.log(block.laneScore[0],"0");
-    console.log(block.laneScore[1],"1");
-    console.log(block.laneScore[2],"2");
-    console.log(block.laneScore[3],"3");
+    // console.log(block.laneScore[0],"0");
+    // console.log(block.laneScore[1],"1");
+    // console.log(block.laneScore[2],"2");
+    // console.log(block.laneScore[3],"3");
 
 };
 
@@ -171,12 +171,15 @@ var calcBlockScore = function(){
     verLaneAddition();
 
 
-	if(block.laneScore[0][0] != undefined && block.laneScore[1][0] != undefined && block.laneScore[2][0] != undefined && block.laneScore[3][0] != undefined){
-
+	if(lowest >= 1){
 		// check if row is has same value
-		for(var i=0;i<lowest;i++){
-            if(block.laneScore[0][i] == block.laneScore[1][i] == block.laneScore[2][i] == block.laneScore[3][i]){
-                console.log("same data");
+		for(var i=0;i<=lowest;i++){
+			console.log("lowest", lowest);
+            console.log(block.laneScore[0][i], block.laneScore[1][i], block.laneScore[2][i], block.laneScore[3][i],"inside loop data", "i", i);
+            if(block.laneScore[0][i] == block.laneScore[1][i] &&
+			   block.laneScore[0][i] == block.laneScore[2][i] &&
+			   block.laneScore[0][i] == block.laneScore[3][i]){
+            	console.log(block.laneScore[0][i], block.laneScore[1][i], block.laneScore[2][i], block.laneScore[3][i],"same data");
                 block.laneScore[0].splice(i,1);
                 block.laneScore[1].splice(i,1);
                 block.laneScore[2].splice(i,1);

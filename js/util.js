@@ -28,7 +28,7 @@ var getLowestLaneScore = function(){
 			lowest = block.laneScore[i].length;
 		}
 	}
-	// console.log(lowest);
+	console.log(lowest);
 	return lowest;
 };
 
